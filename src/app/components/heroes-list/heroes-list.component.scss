@@ -1,0 +1,37 @@
+.filter-row {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 50%;
+}
+
+.add-hero-button {
+    margin-right: 20px;
+}
+
+.table {
+    margin: 20px!important;
+}
+
+.last-cell {
+    display: flex;
+    justify-content: space-between;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

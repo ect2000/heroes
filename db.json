@@ -1,0 +1,34 @@
+{
+  "heroes": [
+    {
+      "id": 1,
+      "name": "Superman",
+      "gender": "Hombre"
+    },
+    {
+      "id": 2,
+      "name": "Hulk",
+      "gender": "Otro"
+    },
+    {
+      "id": 3,
+      "name": "WonderWoman",
+      "gender": "Mujer"
+    },
+    {
+      "id": 4,
+      "name": "Ninja",
+      "gender": "Hombre"
+    },
+    {
+      "id": 5,
+      "name": "TEST5",
+      "gender": "Mujer"
+    },
+    {
+      "id": 6,
+      "name": "TEST6",
+      "gender": "Otro"
+    }
+  ]
+}

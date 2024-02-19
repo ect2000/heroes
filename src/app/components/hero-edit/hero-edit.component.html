@@ -1,0 +1,41 @@
+@if (loadingService.loading$ | async) {
+    <div class="loading-overlay">
+        <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+    </div>
+} @else {
+    <div class="hero-form">
+        <mat-toolbar color="accent">Editar Héroe</mat-toolbar>
+        @if (editHeroForm) {
+            <form [formGroup]="editHeroForm" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="fill">
+                    <mat-label>Nombre del Héroe</mat-label>
+                    <input matInput formControlName="name" appUppercaseInput>
+                    @if(editHeroForm.controls['name'] && editHeroForm.controls['name'].invalid) {
+                        <mat-error>
+                            El nombre del héroe es obligatorio.
+                        </mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Género del Héroe</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option value="Hombre">Hombre</mat-option>
+                        <mat-option value="Mujer">Mujer</mat-option>
+                        <mat-option value="Otro">Otro</mat-option>
+                    </mat-select>
+                    @if(editHeroForm.controls['gender'] && editHeroForm.controls['gender'].invalid) {
+                        <mat-error>
+                            El género del héroe es obligatorio.
+                        </mat-error>
+                    }
+                    
+                </mat-form-field>
+                <div class="buttons">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!editHeroForm.valid">Actualizar</button>
+                    <button mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+                </div>
+            </form>
+        }
+      </div>
+}
+  

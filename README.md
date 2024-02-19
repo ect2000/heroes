@@ -25,3 +25,9 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+## Para probar el con el mock server (he usado json-server@0.17.4 ya que las versiones más recientes no permitían hacer búsquedas '_like'):
+ - Ejecutar en una terminal 'json-server --watch db.json' (por defecto servidor levantado en http://localhost:3000/heroes)
+ - Ejecutar el front normal con 'ng serve'
+

@@ -1,0 +1,28 @@
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: center;
+}
+
+mat-form-field {
+    width: 50%;
+}
+
+.buttons {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

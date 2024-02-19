@@ -1,0 +1,52 @@
+@if (loadingService.loading$ | async) {
+    <div class="loading-overlay">
+        <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+    </div>
+} @else {
+    <div class="hero-form">
+        <mat-toolbar color="primary">Añadir Nuevo Héroe</mat-toolbar>
+        <form [formGroup]="addHeroForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+                <mat-label>Id del Héroe</mat-label>
+                <input matInput type="number" formControlName="id">
+                @if (addHeroForm.controls['id'].hasError('uniqueHeroId')) {
+                    <mat-error>
+                        El id {{ addHeroForm.controls['id'].value }} ya existe.
+                    </mat-error>
+                } @else if(addHeroForm.controls['id'].invalid) {
+                    <mat-error>
+                        El id del héroe es obligatorio.
+                    </mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Nombre del Héroe</mat-label>
+                <input matInput type="text" formControlName="name" appUppercaseInput>
+                @if(addHeroForm.controls['name'].invalid) {
+                    <mat-error>
+                        El nombre del héroe es obligatorio.
+                    </mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Género del Héroe</mat-label>
+                <mat-select formControlName="gender">
+                    <mat-option value="Hombre">Hombre</mat-option>
+                    <mat-option value="Mujer">Mujer</mat-option>
+                    <mat-option value="Otro">Otro</mat-option>
+                </mat-select>
+                @if(addHeroForm.controls['gender'].invalid) {
+                    <mat-error>
+                        El género del héroe es obligatorio.
+                    </mat-error>
+                }
+            </mat-form-field>
+            
+            <div class="buttons">
+                <button mat-raised-button color="primary" s type="submit" [disabled]="!addHeroForm.valid">Guardar</button>
+                <button mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+            </div>
+        </form>
+      </div>
+    
+}
