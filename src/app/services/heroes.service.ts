@@ -9,7 +9,7 @@ import { Hero } from '../models/hero.model';
   providedIn: 'root'
 })
 export class HeroesService {
-  private apiUrl = 'http://localhost:3000/heroes';
+  public apiUrl = 'http://localhost:3000/heroes';
 
   public allHeroes: Hero[] = [];
 
