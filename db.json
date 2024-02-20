@@ -29,6 +29,11 @@
       "id": 6,
       "name": "TEST6",
       "gender": "Otro"
+    },
+    {
+      "id": 8,
+      "name": "HULK2",
+      "gender": "Otro"
     }
   ]
 }

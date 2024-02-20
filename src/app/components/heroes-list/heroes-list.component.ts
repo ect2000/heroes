@@ -48,7 +48,7 @@ export class HeroesListComponent {
       if (!loading) {
         setTimeout(() => {
           this.heroes.paginator = this.paginator;
-        }, 1); 
+        }, 20); 
       }
     });
   }
