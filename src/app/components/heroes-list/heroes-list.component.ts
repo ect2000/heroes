@@ -58,7 +58,6 @@ export class HeroesListComponent {
       this.heroes.data = heroes;
       this.heroes.paginator = this.paginator;
       this.cdr.detectChanges();
-      console.log(this.heroes);
     });
   }
 

@@ -19,21 +19,6 @@
       "id": 4,
       "name": "Ninja",
       "gender": "Hombre"
-    },
-    {
-      "id": 5,
-      "name": "TEST5",
-      "gender": "Mujer"
-    },
-    {
-      "id": 6,
-      "name": "TEST6",
-      "gender": "Otro"
-    },
-    {
-      "id": 8,
-      "name": "HULK2",
-      "gender": "Otro"
     }
   ]
 }
