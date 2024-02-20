@@ -8,7 +8,7 @@ import { MatTable, MatCell, MatHeaderCell, MatHeaderRow, MatRow, MatTableDataSou
 import { MatIcon } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { MatButton } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBar} from '@angular/material/progress-bar';
@@ -31,11 +31,14 @@ export class HeroesListComponent {
   heroes = new MatTableDataSource<Hero, MatPaginator>([]);
   searchControl = new FormControl();
 
+  private destroy$ = new Subject<void>();
+
   constructor(private heroesService: HeroesService, private router: Router, private dialog: MatDialog, public loadingService: LoadingService, private cdr: ChangeDetectorRef) { 
     this.searchControl.valueChanges
       .pipe(
         debounceTime(400),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
       )
       .subscribe(term => {
         this.applyFilter(term);
@@ -44,7 +47,7 @@ export class HeroesListComponent {
 
   ngAfterViewInit() {
     this.loadHeroes();
-    this.loadingService.loading$.subscribe(loading => {
+    this.loadingService.loading$.pipe(takeUntil(this.destroy$)).subscribe(loading => {
       if (!loading) {
         setTimeout(() => {
           this.heroes.paginator = this.paginator;
@@ -54,7 +57,7 @@ export class HeroesListComponent {
   }
 
   loadHeroes(): void {
-    this.heroesService.getAllHeroes().subscribe(heroes => {
+    this.heroesService.getAllHeroes().pipe(takeUntil(this.destroy$)).subscribe(heroes => {
       this.heroes.data = heroes;
       this.heroes.paginator = this.paginator;
       this.cdr.detectChanges();
@@ -69,9 +72,9 @@ export class HeroesListComponent {
       }
     });
   
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if (result) {
-        this.heroesService.deleteHero(id).subscribe(() => this.loadHeroes());
+        this.heroesService.deleteHero(id).pipe(takeUntil(this.destroy$)).subscribe(() => this.loadHeroes());
       }
     });
   }
@@ -87,6 +90,11 @@ export class HeroesListComponent {
   }
 
   applyFilter(query: string): void {
-    this.heroesService.searchHeroes(query).subscribe(heroes => this.heroes.data = heroes);
+    this.heroesService.searchHeroes(query).pipe(takeUntil(this.destroy$)).subscribe(heroes => this.heroes.data = heroes);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -13,6 +13,7 @@ import { LoadingService } from '../../services/loading.service';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { AsyncPipe } from '@angular/common';
 import { UppercaseInputDirective } from '../../directives/uppercase-input.directive';
+import { Subject, take, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-hero-add',
   standalone: true,
@@ -34,13 +35,15 @@ export class HeroAddComponent {
 
   heroes: Hero[] = [];
 
+  private destroy$ = new Subject<void>();
+
   constructor(private heroesService: HeroesService, private router: Router, public loadingService: LoadingService) {}
 
   ngOnInit() {
     if (this.heroesService.allHeroes.length > 0) {
       this.heroes = this.heroesService.allHeroes
     } else {
-      this.heroesService.getAllHeroes().subscribe(heroes => this.heroes = heroes);
+      this.heroesService.getAllHeroes().pipe(takeUntil(this.destroy$)).subscribe(heroes => this.heroes = heroes);
     }
   }
 
@@ -63,7 +66,7 @@ export class HeroAddComponent {
         this.duplicateIdError = true;
         return;
       } else {
-        this.heroesService.addHero(heroToAdd).subscribe(() => {
+        this.heroesService.addHero(heroToAdd).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['/heroes']);
         });
       }
@@ -72,5 +75,10 @@ export class HeroAddComponent {
 
   cancel() {
     this.router.navigate(['/heroes']);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

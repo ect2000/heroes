@@ -13,6 +13,7 @@ import { AsyncPipe } from '@angular/common';
 import { LoadingService } from '../../services/loading.service';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { UppercaseInputDirective } from '../../directives/uppercase-input.directive';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-hero-edit',
@@ -23,6 +24,8 @@ import { UppercaseInputDirective } from '../../directives/uppercase-input.direct
 })
 export class HeroEditComponent {
   editHeroForm: FormGroup;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private heroesService: HeroesService,
@@ -39,14 +42,14 @@ export class HeroEditComponent {
 
   ngOnInit() {
     const heroId = this.route.snapshot.params['id'];
-    this.heroesService.getHeroById(heroId).subscribe((hero: Hero) => {
+    this.heroesService.getHeroById(heroId).pipe(takeUntil(this.destroy$)).subscribe((hero: Hero) => {
       this.editHeroForm.patchValue(hero);
     });
   }
 
   onSubmit() {
     if (this.editHeroForm.valid) {
-      this.heroesService.updateHero(this.editHeroForm.value).subscribe(() => {
+      this.heroesService.updateHero(this.editHeroForm.value).pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.router.navigate(['/heroes']);
       });
     }
@@ -54,5 +57,10 @@ export class HeroEditComponent {
 
   cancel() {
     this.router.navigate(['/heroes']);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
