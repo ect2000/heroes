@@ -59,13 +59,6 @@ export class HeroAddComponent {
         name: this.addHeroForm.value.name ?? '',
         gender: this.addHeroForm.value.gender ?? 'Hombre'
       };
-
-      if (this.heroesService.allHeroes.length > 0) {
-
-      } else {
-
-      }
-
       if (this.heroesService.allHeroes.some(hero => hero.id === heroToAdd.id)) {
         this.duplicateIdError = true;
         return;
